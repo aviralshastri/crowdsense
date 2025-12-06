@@ -1,0 +1,743 @@
+/* FORCE SCROLL FIX */
+html {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  height: auto !important;
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  height: auto !important;
+  min-height: 100vh;
+}
+
+/* KEYFRAME ANIMATIONS */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.3);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(30px, -30px);
+  }
+}
+
+@keyframes criticalPulse {
+  0%, 100% {
+    box-shadow: 0 4px 20px rgba(244, 67, 54, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 30px rgba(244, 67, 54, 0.6);
+  }
+}
+
+@keyframes radarPing {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes radarPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+/* SENSOR PAGE */
+.sensor-page {
+  padding: 40px 20px 80px 20px;
+  max-width: 1600px;
+  margin: 0 auto;
+  color: #d4e4f7;
+  background: linear-gradient(135deg, #0a0e1a 0%, #151b2d 50%, #1a1f35 100%);
+  min-height: 100vh;
+  position: relative;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.sensor-page.loaded {
+  opacity: 1;
+}
+
+.sensor-page::before {
+  content: '';
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(91, 141, 184, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(80px);
+  top: 10%;
+  right: -10%;
+  animation: float 20s ease-in-out infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.sensor-page::after {
+  content: '';
+  position: fixed;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(74, 123, 167, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(80px);
+  bottom: -10%;
+  left: -10%;
+  animation: float 25s ease-in-out infinite reverse;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* HEADER */
+.sensor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 1;
+  animation: slideDown 0.6s ease-out;
+}
+
+.sensor-title {
+  font-size: 48px;
+  font-weight: bold;
+  background: linear-gradient(135deg, #5b8db8 0%, #7fa9ce 50%, #a8c5e0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  filter: drop-shadow(0 0 20px rgba(91, 141, 184, 0.3));
+}
+
+.title-icon {
+  font-size: 36px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* LIVE INDICATOR */
+.live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  background: rgba(91, 141, 184, 0.15);
+  border: 2px solid rgba(91, 141, 184, 0.3);
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 1px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.pulse-dot {
+  width: 10px;
+  height: 10px;
+  background: #4cc9f0;
+  border-radius: 50%;
+  animation: pulseGlow 1.5s ease-in-out infinite;
+  box-shadow: 0 0 10px #4cc9f0;
+}
+
+/* ZONES GRID - Similar to camera feeds */
+.sensor-zones-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 40px;
+}
+
+/* ZONE CARD */
+.zone-card {
+  position: relative;
+  border: 2px solid rgba(91, 141, 184, 0.3);
+  border-radius: 16px;
+  padding: 30px;
+  background: rgba(20, 30, 48, 0.6);
+  backdrop-filter: blur(15px);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  opacity: 0;
+  animation: fadeInUp 0.6s ease forwards;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.zone-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(91, 141, 184, 0.6);
+  box-shadow: 0 8px 30px rgba(91, 141, 184, 0.4);
+}
+
+.zone-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #5b8db8, #4cc9f0);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s ease;
+}
+
+.zone-card:hover::before {
+  transform: scaleX(1);
+}
+
+/* Status variants */
+.zone-card.sensor-critical {
+  border-color: rgba(244, 67, 54, 0.5);
+  background: rgba(244, 67, 54, 0.05);
+}
+
+.zone-card.sensor-critical:hover {
+  animation: criticalPulse 2s ease-in-out infinite;
+}
+
+.zone-card.sensor-warning {
+  border-color: rgba(255, 193, 7, 0.5);
+  background: rgba(255, 193, 7, 0.05);
+}
+
+.zone-card.sensor-normal {
+  border-color: rgba(76, 201, 240, 0.3);
+}
+
+/* ZONE HEADER */
+.zone-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.zone-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.zone-status-icon {
+  font-size: 28px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+/* QUICK STATS */
+.zone-quick-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.quick-stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(91, 141, 184, 0.1);
+  border-radius: 10px;
+  border: 1px solid rgba(91, 141, 184, 0.2);
+}
+
+.stat-icon {
+  font-size: 20px;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: #4cc9f0;
+}
+
+/* PIR STATUS */
+.zone-pir-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #a8c5e0;
+  padding: 8px 12px;
+  background: rgba(91, 141, 184, 0.1);
+  border-radius: 8px;
+  justify-content: center;
+}
+
+.pir-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.pir-dot.active {
+  background: #4cc9f0;
+  box-shadow: 0 0 10px #4cc9f0;
+  animation: pulseGlow 1.5s ease-in-out infinite;
+}
+
+.pir-dot.inactive {
+  background: rgba(91, 141, 184, 0.3);
+}
+
+/* SHIMMER EFFECT */
+.zone-shimmer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  animation: shimmer 3s infinite;
+  pointer-events: none;
+}
+
+/* MODAL OVERLAY */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+/* MODAL CONTENT */
+.modal-content {
+  background: linear-gradient(135deg, #0a0e1a 0%, #151b2d 50%, #1a1f35 100%);
+  border: 2px solid rgba(91, 141, 184, 0.4);
+  border-radius: 20px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: fadeInUp 0.4s ease;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: rgba(91, 141, 184, 0.1);
+  border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: rgba(91, 141, 184, 0.4);
+  border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(91, 141, 184, 0.6);
+}
+
+/* MODAL HEADER */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+  border-bottom: 1px solid rgba(91, 141, 184, 0.2);
+  position: sticky;
+  top: 0;
+  background: linear-gradient(135deg, #0a0e1a 0%, #151b2d 100%);
+  z-index: 10;
+}
+
+.modal-header h2 {
+  font-size: 32px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #5b8db8, #4cc9f0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+.modal-status-badge {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-status-badge.sensor-critical {
+  background: rgba(244, 67, 54, 0.2);
+  border: 1px solid rgba(244, 67, 54, 0.5);
+  color: #f44336;
+}
+
+.modal-status-badge.sensor-warning {
+  background: rgba(255, 193, 7, 0.2);
+  border: 1px solid rgba(255, 193, 7, 0.5);
+  color: #ffc107;
+}
+
+.modal-status-badge.sensor-normal {
+  background: rgba(76, 201, 240, 0.2);
+  border: 1px solid rgba(76, 201, 240, 0.5);
+  color: #4cc9f0;
+}
+
+/* MODAL CLOSE BUTTON */
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(244, 67, 54, 0.2);
+  border: 2px solid rgba(244, 67, 54, 0.4);
+  color: #f44336;
+  font-size: 32px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.modal-close:hover {
+  background: rgba(244, 67, 54, 0.3);
+  border-color: rgba(244, 67, 54, 0.6);
+  transform: rotate(90deg);
+}
+
+/* MODAL BODY */
+.modal-body {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* DETAILED SENSOR BOX */
+.detail-sensor-box {
+  border: 2px solid rgba(91, 141, 184, 0.25);
+  border-radius: 16px;
+  padding: 25px;
+  background: rgba(20, 30, 48, 0.6);
+  backdrop-filter: blur(15px);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.detail-sensor-box:hover {
+  border-color: rgba(91, 141, 184, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.detail-sensor-box.sensor-warning {
+  border-color: rgba(255, 193, 7, 0.4);
+  background: rgba(255, 193, 7, 0.05);
+}
+
+.detail-sensor-box.sensor-critical {
+  border-color: rgba(244, 67, 54, 0.4);
+  background: rgba(244, 67, 54, 0.05);
+}
+
+.detail-sensor-box.sensor-motion {
+  border-color: rgba(76, 201, 240, 0.4);
+  background: rgba(76, 201, 240, 0.05);
+}
+
+/* SENSOR LABEL */
+.sensor-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #7fa9ce;
+  margin-bottom: 15px;
+}
+
+.sensor-icon {
+  font-size: 20px;
+}
+
+/* SENSOR VALUE */
+.sensor-value {
+  font-size: 48px;
+  font-weight: 700;
+  margin: 10px 0;
+  background: linear-gradient(135deg, #4cc9f0, #5b8db8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 8px rgba(76, 201, 240, 0.3));
+}
+
+/* SENSOR CONTENT */
+.sensor-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* SENSOR METRICS */
+.sensor-metrics {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.metric-item {
+  flex: 1;
+  background: rgba(91, 141, 184, 0.1);
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(91, 141, 184, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.metric-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #7fa9ce;
+  letter-spacing: 0.5px;
+}
+
+.metric-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: #4cc9f0;
+}
+
+/* PROGRESS BAR */
+.sensor-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(91, 141, 184, 0.15);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 15px 0;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.sensor-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #5b8db8, #4cc9f0);
+  border-radius: 10px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+}
+
+.sensor-warning .sensor-bar-fill {
+  background: linear-gradient(90deg, #ffc107, #ffb300);
+  box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+}
+
+.sensor-critical .sensor-bar-fill {
+  background: linear-gradient(90deg, #f44336, #d32f2f);
+  box-shadow: 0 0 10px rgba(244, 67, 54, 0.5);
+}
+
+/* SENSOR SUGGESTION */
+.sensor-suggestion {
+  font-size: 14px;
+  color: #a8c5e0;
+  line-height: 1.6;
+  margin-top: 15px;
+  padding: 12px;
+  background: rgba(91, 141, 184, 0.08);
+  border-radius: 8px;
+  border-left: 3px solid #5b8db8;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.suggestion-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* PIR INDICATOR */
+.pir-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.pir-status {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 4px solid;
+  transition: all 0.4s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pir-status.active {
+  background: rgba(76, 201, 240, 0.2);
+  border-color: #4cc9f0;
+  box-shadow: 0 0 40px rgba(76, 201, 240, 0.6), 
+              inset 0 0 30px rgba(76, 201, 240, 0.3);
+  animation: radarPulse 2s ease-in-out infinite;
+}
+
+.pir-status.inactive {
+  background: rgba(91, 141, 184, 0.1);
+  border-color: rgba(91, 141, 184, 0.3);
+}
+
+.radar-ping {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid #4cc9f0;
+  animation: radarPing 2s ease-out infinite;
+  opacity: 0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+  .sensor-zones-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .sensor-page {
+    padding: 20px;
+  }
+
+  .sensor-title {
+    font-size: 32px;
+  }
+
+  .sensor-zones-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-header h2 {
+    font-size: 24px;
+  }
+
+  .sensor-value {
+    font-size: 36px;
+  }
+
+  .zone-name {
+    font-size: 18px;
+  }
+
+  .modal-content {
+    max-height: 85vh;
+  }
+}

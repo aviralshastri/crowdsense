@@ -23,10 +23,10 @@ def save_data(data_list):
         json.dump(data_list, f, indent=4)
 
 def main():
-    # Load existing JSON array
+    
     data_list = load_existing_data()
 
-    # Open serial port
+    
     ser = serial.Serial(PORT, BAUD, timeout=1)
     print(f"Listening on {PORT} at {BAUD} baud...")
 
@@ -36,16 +36,13 @@ def main():
 
             if not line:
                 continue
-
-            # Try to parse JSON
             try:
                 data = json.loads(line)
                 print("Received:", data)
 
-                # Append to array list
                 data_list.append(data)
 
-                # Save updated file
+                
                 save_data(data_list)
 
             except json.JSONDecodeError:
